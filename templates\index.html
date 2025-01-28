@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="email"], input[type="file"] {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="email"]:focus, input[type="file"]:focus {
+            border-color: #4c90f1;
+        }
+
+        button {
+            padding: 12px;
+            background-color: #4c90f1;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #3a7bd5;
+        }
+
+        p {
+            text-align: center;
+            color: #666;
+        }
+
+        .history {
+            margin-top: 30px;
+        }
+
+        .history ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .history li {
+            margin: 5px 0;
+        }
+
+        .history a {
+            color: #4c90f1;
+            text-decoration: none;
+        }
+
+        .history a:hover {
+            text-decoration: underline;
+        }
+
+        /* Styles for the logout button */
+        .logout-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+            background-color: #ff4c4c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: #e53939;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload Your File</h1>
+
+        {% if not email %}
+        <form method="post" action="/">
+            <div>
+                <label for="email">Enter your email</label>
+                <input type="email" id="email" name="email" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
+            </div>
+            <div>
+                <button type="submit">Set Email</button>
+            </div>
+        </form>
+        {% else %}
+        <form method="post" enctype="multipart/form-data" action="/">
+            <div>
+                <label for="file">Choose file to upload</label>
+                <input type="file" id="file" name="form_file" accept="image/jpeg" required/>
+            </div>
+            <div>
+                <button type="submit">Upload</button>
+            </div>
+        </form>
+
+        <div class="history">
+            <h2>History of Uploads</h2>
+            <ul>
+                {% for file in files %}
+                    <li><a href="/files/{{ file }}" target="_blank">{{ file }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <form method="post" action="/logout">
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+        {% endif %}
+    </div>
+</body>
+</html>
